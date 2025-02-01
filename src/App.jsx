@@ -21,8 +21,6 @@ const App = () => {
         <Route path="/eventlist" element={<EventList />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
-
-
       </Routes>
     </Router>
   );

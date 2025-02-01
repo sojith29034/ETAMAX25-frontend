@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 const Home = () => {
     return (
       <div className="p-4">
