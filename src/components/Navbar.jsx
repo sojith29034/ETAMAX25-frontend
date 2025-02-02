@@ -25,7 +25,7 @@ const Navbar = () => {
     <nav className="bg-[#F2DAB8]">
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo */}
-        <div className="text-[#2B1511] text-lg font-bold">
+        <div className="spicy-rice text-[#2B1511] text-4xl">
           <Link to="/">SPECTRUM</Link>
         </div>
 
@@ -37,7 +37,7 @@ const Navbar = () => {
             aria-expanded={isOpen ? "true" : "false"}
           >
             <svg
-              className="w-6 h-6"
+              className="w-9 h-9"
               fill="none"
               stroke="#2B1511"
               viewBox="0 0 24 24"
@@ -46,7 +46,7 @@ const Navbar = () => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth="3"
                 d="M4 6h16M4 12h16M4 18h16"
               ></path>
             </svg>
@@ -54,7 +54,7 @@ const Navbar = () => {
         </div>
 
         {/* Navbar Links (Visible on Desktop) */}
-        <div className="hidden md:flex space-x-4">
+        <div className="wide-screen sm:flex space-x-4">
           <Link
             to="/"
             className="block text-[#2B1511] text-lg border-b-2 border-transparent hover:border-[#2B1511] py-2 px-2 transition-all duration-300 ease-in-out"
@@ -104,7 +104,7 @@ const Navbar = () => {
         <div
           className={`mt-2 ${
             isOpen ? "block" : "hidden"
-          } md:hidden text-center m-4`}
+          } md:hidden text-center m-4 border-t-2`}
         >
           <Link
             to="/"

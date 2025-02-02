@@ -1,8 +1,10 @@
 import BentoGrid from "../components/BentoGrid";
+import WaveBg from '../components/WaveBg'
 
 const Home = () => {
     return (
-      <div>        
+      <div>       
+          <WaveBg />
           <BentoGrid />
       </div>
     );
