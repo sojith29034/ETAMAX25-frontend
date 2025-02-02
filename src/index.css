@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Spicy+Rice&display=swap');
-@import "tailwindcss";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+.header {
+    font-family: 'Spicy Rice', cursive;
+}
