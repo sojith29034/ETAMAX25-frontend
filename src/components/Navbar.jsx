@@ -37,7 +37,7 @@ const Navbar = () => {
             aria-expanded={isOpen ? "true" : "false"}
           >
             <svg
-              className="w-6 h-6"
+              className="w-9 h-9"
               fill="none"
               stroke="#2B1511"
               viewBox="0 0 24 24"
@@ -46,7 +46,7 @@ const Navbar = () => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth="3"
                 d="M4 6h16M4 12h16M4 18h16"
               ></path>
             </svg>

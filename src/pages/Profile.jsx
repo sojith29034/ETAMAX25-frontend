@@ -185,7 +185,7 @@ const Profile = () => {
         <h4 className="spicy-rice text-[#2B1511] text-xl text-center font-bold">
           Welcome, {userName}
           <br />
-          {rollNo}
+          <p>{rollNo}</p>
         </h4>
       )}
       <hr className="my-4 border-gray-300" />
@@ -198,13 +198,13 @@ const Profile = () => {
 
       <div className="border-2 border-[#2B1511] shadow-md p-6 rounded-lg my-4 w-full max-w-lg mx-auto">
         <div className="grid grid-cols-3 gap-4 text-center font-semibold">
-          <div>Confirmed Events</div>
+          <div>Confirmed</div>
           <div>{confirmedEvents.length}</div>
           <div>₹{totalConfirmedFees}</div>
-          <div>Pending Events</div>
+          <div>Pending</div>
           <div>{pendingEvents.length}</div>
           <div>₹{totalPendingFees}</div>
-          <div>Total Events</div>
+          <div>Total</div>
           <div>{confirmedEvents.length + pendingEvents.length}</div>
           <div>₹{totalConfirmedFees + totalPendingFees}</div>
         </div>
@@ -221,9 +221,9 @@ const Profile = () => {
             confirmedEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-full md:w-1/3 p-3" key={event._id}>
+                <div className="w-full md:w-1/3" key={event._id}>
                   <div
-                    className={`${getRandomColor()} border-4 rounded-xl p-2`}
+                    className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
                     <h4 className="playfair-display text font-bold text-center">
                       {eventDetail?.eventName || "Loading..."}
@@ -275,7 +275,7 @@ const Profile = () => {
               const eventDetail = eventDetails[event.eventId];
               return (
                 <div className="w-full md:w-1/3 p-3" key={event._id}>
-                  <div className={`${getRandomColor()} border-4 rounded-xl p-2`}>
+                  <div className={`${getRandomColor()} border-4 rounded-xl p-3`}>
                     <h4 className="playfair-display text font-bold text-center">
                       {eventDetail?.eventName || "Loading..."}
                     </h4>
