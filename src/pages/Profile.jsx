@@ -188,7 +188,7 @@ const Profile = () => {
           <p>{rollNo}</p>
         </h4>
       )}
-      <hr className="my-4 border-gray-300" />
+      <hr className="my-4 border-[#2B1511]" />
       {error && (
         <div
           className="bg-red-300 p-2 rounded-md"
@@ -225,18 +225,18 @@ const Profile = () => {
                   <div
                     className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
-                    <h4 className="playfair-display text font-bold text-center">
+                    <h2 className="playfair-display font-bold text-center">
                       {eventDetail?.eventName || "Loading..."}
-                    </h4>
-                    <hr />
+                    </h2>
+                    <hr className="m-3" />
                     <p className="capitalize">
-                      <strong>Category:</strong>{" "}
+                      <span className="font-semibold">Category:</span>{" "}
                       {eventDetail?.eventCategory || "Loading..."} <br />
-                      <strong>Day:</strong>{" "}
+                      <span className="font-semibold">Day:</span>{" "}
                       {eventDetail?.eventDay || "Loading..."} <br />
-                      <strong>Entry Fees:</strong> ₹
+                      <span className="font-semibold">Entry Fees:</span> ₹
                       {event.amount || "Loading..."} <br />
-                      <strong>Time:</strong>{" "}
+                      <span className="font-semibold">Time:</span>{" "}
                       {eventDetail
                         ? `${eventDetail.startTime} - ${eventDetail.endTime}`
                         : "Loading..."}{" "}
@@ -275,25 +275,27 @@ const Profile = () => {
             pendingEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-full md:w-1/3 p-3" key={event._id}>
-                  <div className={`${getRandomColor()} border-4 rounded-xl p-3`}>
-                    <h4 className="playfair-display text font-bold text-center">
+                <div className="w-[300px]" key={event._id}>
+                  <div
+                    className={`${getRandomColor()} border-4 rounded-xl p-3`}
+                  >
+                    <h2 className="playfair-display font-bold text-center">
                       {eventDetail?.eventName || "Loading..."}
-                    </h4>
-                    <hr />
+                    </h2>
+                    <hr className="m-3" />
                     <p className="capitalize">
-                      <strong>Category:</strong>{" "}
+                      <span className="font-semibold">Category:</span>{" "}
                       {eventDetail?.eventCategory || "Loading..."} <br />
-                      <strong>Day:</strong>{" "}
+                      <span className="font-semibold">Day:</span>{" "}
                       {eventDetail?.eventDay || "Loading..."} <br />
-                      <strong>Entry Fees:</strong> ₹
+                      <span className="font-semibold">Entry Fees:</span> ₹
                       {event.amount || "Loading..."} <br />
-                      <strong>Time:</strong>{" "}
+                      <span className="font-semibold">Time:</span>{" "}
                       {eventDetail
                         ? `${eventDetail.startTime} - ${eventDetail.endTime}`
                         : "Loading..."}{" "}
                       <br />
-                      <strong>Seats:</strong>{" "}
+                      <span className="font-semibold">Seats:</span>{" "}
                       {calculateFilledSeats(event.eventId)} /{" "}
                       {eventDetail?.maxSeats || "Free for all"} <br />
                       {eventDetail?.teamSize > 1

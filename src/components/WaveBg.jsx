@@ -54,7 +54,7 @@ const WaveBg = ({
 
         for (let x = 0; x < w; x += 8) {
           const y = noise(x / 500, 0.5 * i, noiseTime.current) * 200;
-          ctx.lineTo(x, y + h * 0.5);
+          ctx.lineTo(x, y + h * 0.4);
         }
         ctx.stroke();
         ctx.closePath();
@@ -102,13 +102,16 @@ const WaveBg = ({
         containerClassName
       )}
     >
+      <div style={{ transform: 'translate(0, -20%)' }} className="absolute z-12 h-100 w-100">
+        <img src="./LOGO.png" alt="" />
+      </div>
       <canvas
         className="inset-0 z-0"
         ref={canvasRef}
         id="canvas"
         style={{ filter: `blur(${blur}px)` }}
       ></canvas>
-      <div className={cn("relative z-10", className)} {...props}>
+      <div className={cn("z-10", className)} {...props}>
         {children}
       </div>
     </div>

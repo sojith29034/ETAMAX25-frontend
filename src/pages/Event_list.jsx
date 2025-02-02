@@ -1,15 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faChair, faTag } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const rootColors = [
   "border-[#E9A107]",
-  "border-[#E9680B]",
   "border-[#E34819]",
   "border-[#E84945]",
-  "border-[#E1455D]",
   "border-[#C667A3]",
   "border-[#5384C4]",
   "border-[#3FB5B4]",
@@ -25,6 +23,7 @@ const EventList = () => {
   const [currentDay, setCurrentDay] = useState(1);
   const [currentCategory, setCurrentCategory] = useState("technical");
   const [cardColors, setCardColors] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -37,6 +36,7 @@ const EventList = () => {
       } catch (error) {
         console.error("Error fetching events:", error);
         setLoading(false);
+        // Optionally show an error message to the user
       }
     };
 
@@ -51,12 +51,24 @@ const EventList = () => {
         eventsData.forEach((event) => {
           newColors[event._id] = getRandomColor();
         });
-        return newColors; // Updated logic to directly return newColors
+        return newColors;
       });
     }, 3000);
 
     return () => clearInterval(interval);
   }, [eventsData]);
+
+  const handleEnroll = useCallback(
+    (event) => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) {
+        navigate("/login"); // Redirect to login if not authenticated
+      } else {
+        navigate(`/event/${event._id}`, { state: { event } });
+      }
+    },
+    [navigate]
+  );
 
   if (loading) return <p>Loading events...</p>;
 
@@ -66,7 +78,7 @@ const EventList = () => {
   );
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-4">
+    <div className="w-full max-w-5xl mx-auto p-4 playfair-display">
       {/* Day Tabs */}
       <div className="flex justify-evenly mb-4 border-b border-gray-500">
         {[1, 2, 3].map((day) => (
@@ -75,7 +87,7 @@ const EventList = () => {
             onClick={() => setCurrentDay(day)}
             className={`px-4 py-2 ${
               currentDay === day
-                ? "border-b-2 border-blue-500"
+                ? "border-b-2 border-[#2B1511] font-semibold"
                 : "opacity-50 hover:opacity-100"
             }`}
           >
@@ -92,7 +104,7 @@ const EventList = () => {
             onClick={() => setCurrentCategory(category)}
             className={`px-4 py-2 ${
               currentCategory === category
-                ? "border-b-2 border-blue-500"
+                ? "border-b-2 border-[#2B1511] font-semibold"
                 : "opacity-50 hover:opacity-100"
             }`}
           >
@@ -102,7 +114,7 @@ const EventList = () => {
       </div>
 
       {/* Event Cards */}
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4 mt-9">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event) => (
             <div
@@ -111,7 +123,7 @@ const EventList = () => {
                 cardColors[event._id] || getRandomColor()
               } border-9 rounded-lg shadow-lg p-4 w-72 flex flex-col transition-transform hover:scale-105`}
             >
-              <h3 className="text-lg font-bold text-center">
+              <h3 className="text-lg font-bold text-center text-[#2B1511]">
                 {event.eventName}
               </h3>
               <div className="mt-2">
@@ -127,7 +139,12 @@ const EventList = () => {
                   <FontAwesomeIcon icon={faTag} className="mr-2" />
                   {event.entryFees ? `₹${event.entryFees}` : "Free"}
                 </p>
-                <span className="text-center" to={`/event/${event._id}`}>Enroll</span>
+                <button
+                  className="text-center cursor-pointer bg-green-500 text-white my-2 px-6 py-1 rounded-lg hover:bg-green-600 transition duration-200"
+                  onClick={() => handleEnroll(event)}
+                >
+                  Enroll
+                </button>
               </div>
             </div>
           ))

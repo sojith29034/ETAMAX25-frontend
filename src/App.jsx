@@ -16,7 +16,7 @@ const App = () => {
         <Navbar />
 
         {/* Main content area */}
-        <div className="flex flex-col justify-center flex-grow bg-[#FBF5DD]">
+        <div className="flex flex-col justify-start flex-grow bg-[#FBF5DD]">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />

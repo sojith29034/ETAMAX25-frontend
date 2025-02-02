@@ -21,6 +21,7 @@ const Login = () => {
       // Save token or user details in local storage or context
       localStorage.setItem("user", JSON.stringify(response.data));
       navigate("/");
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
       setError("Invalid roll number or password");
@@ -28,7 +29,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center max-h-lvw">
+    <div className="flex justify-center items-center my-auto">
       <div className="m-3 w-full max-w-md p-6 border-3 border-[#2B1511] rounded-lg shadow-3xl">
         <h2 className="text-2xl font-semibold text-center text-[#2B1511]">
           Login
