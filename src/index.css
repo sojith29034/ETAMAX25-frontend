@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    overflow-x: hidden;
+}
+
 .spicy-rice {
     font-family: 'Spicy Rice', cursive;
     letter-spacing: 3px;

@@ -221,13 +221,14 @@ const Profile = () => {
             confirmedEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-full md:w-1/3" key={event._id}>
+                <div className="w-[300px]" key={event._id}>
                   <div
                     className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
                     <h4 className="playfair-display text font-bold text-center">
                       {eventDetail?.eventName || "Loading..."}
                     </h4>
+                    <hr />
                     <p className="capitalize">
                       <strong>Category:</strong>{" "}
                       {eventDetail?.eventCategory || "Loading..."} <br />
@@ -247,7 +248,7 @@ const Profile = () => {
                     <a
                       href={eventDetail?.whatsapp}
                       target="_blank"
-                      className="bg-green-500 text-white px-4 py-2 rounded mt-2 inline-block text-center"
+                      className="bg-green-500 text-white px-4 py-2 rounded mt-2 block text-center"
                     >
                       Join WhatsApp Group
                     </a>

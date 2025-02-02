@@ -19,9 +19,19 @@ const rootColors = [
 const getRandomColor = () =>
   rootColors[Math.floor(Math.random() * rootColors.length)];
 
-const EventCard = ({ className = "", size = "", color = "", eventName = "", eventImg = "", onClick }) => {
+const EventCard = ({ className = "", size = "", eventName = "", eventImg = "", onClick }) => {
+  const [borderColor, setBorderColor] = useState(getRandomColor());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBorderColor(getRandomColor());
+    }, 3000); // Change color every 3 seconds
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
   return (
-    <div className={`${color || getRandomColor()} rounded-xl p-2 ${className}`} onClick={onClick}>
+    <div className={`${borderColor} rounded-xl p-2 ${className}`} onClick={onClick}>
       <div
         className={`${
           size === "large" ? "aspect-[2/1]" : "aspect-square"
@@ -152,7 +162,6 @@ const BentoGrid = () => {
 EventCard.propTypes = {
   className: PropTypes.string,
   size: PropTypes.oneOf(["large", "small", ""]),
-  color: PropTypes.string,
   eventName: PropTypes.string,
   eventImg: PropTypes.string,
   eventId: PropTypes.string,
