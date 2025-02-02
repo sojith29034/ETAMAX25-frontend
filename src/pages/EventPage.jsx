@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Instagram, Linkedin, Youtube } from 'lucide-react';
 
 const EventPage = () => {
