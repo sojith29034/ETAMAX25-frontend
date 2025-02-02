@@ -2,7 +2,7 @@ import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#F2DAB8] text-[#2B1511] pt-6 pb-4 px-4">
+    <footer className="bg-[#F2DAB8] text-[#2B1511] pt-6 pb-4 px-4 playfair-display">
       <div className="container mx-auto text-center sm:max-w-96 md:max-w-128 lg:max-w-192 xl:max-w-256">
         {/* College Name */}
         <h2 className="text-xl font-semibold mb-4">

@@ -1,9 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Spicy+Rice&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spicy+Rice&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.header {
+.spicy-rice {
     font-family: 'Spicy Rice', cursive;
+    letter-spacing: 3px;
+}
+.playfair-display {
+    font-family: "Playfair Display", serif;
+    /* letter-spacing: 3px; */
+}
+
+
+.small-screen{
+    display: none;
+}
+@media only screen and (max-width: 767px) {
+    .wide-screen{
+        display: none;
+    }
+    .small-screen{
+        display: block;
+    }
 }
