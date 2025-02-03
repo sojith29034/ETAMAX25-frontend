@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Instagram, Linkedin, Youtube } from 'lucide-react';
 
 const EventPage = () => {
   const [teamName, setTeamName] = useState('');
@@ -7,10 +6,6 @@ const EventPage = () => {
 
   return (
     <div className="min-h-screen bg-[#fff5eb] flex flex-col">
-      {/* Header */}
-      <div className="bg-[#f5e6d3] p-6 md:p-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-black">SPECTRUM</h1>
-      </div>
 
       {/* Four-Part Flex Layout */}
       <main className="w-full max-w-7xl mx-auto px-6 py-8 md:py-12 flex flex-col md:flex-row gap-8">
@@ -87,19 +82,6 @@ const EventPage = () => {
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-[#f5e6d3] py-8 text-center mt-auto">
-        <h3 className="text-xl md:text-2xl font-bold mb-2">Fr. C. Rodrigues Institute of Technology</h3>
-        <p className="mb-4">
-          Agnel Technical Education Complex,<br /> Sector 9-A Vashi, Navi Mumbai,<br /> Maharashtra, India, Pin - 400703
-        </p>
-        <div className="flex justify-center gap-4">
-          <Instagram className="w-5 h-5" />
-          <Linkedin className="w-5 h-5" />
-          <Youtube className="w-5 h-5" />
-        </div>
-      </footer>
     </div>
   );
 };
