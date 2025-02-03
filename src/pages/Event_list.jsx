@@ -31,17 +31,20 @@ const EventList = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/api/events`
         );
-        setEventsData(response.data || []);
-        setLoading(false);
+        // Ensure response data is an array
+        const data = Array.isArray(response.data) ? response.data : [];
+        setEventsData(data);
       } catch (error) {
         console.error("Error fetching events:", error);
+        setEventsData([]); // Ensure eventsData is an array even on error
+      } finally {
         setLoading(false);
-        // Optionally show an error message to the user
       }
     };
-
+  
     fetchEvents();
   }, []);
+  
 
   useEffect(() => {
     // Change colors every 3 seconds
@@ -58,14 +61,21 @@ const EventList = () => {
     return () => clearInterval(interval);
   }, [eventsData]);
 
+  // const handleEnroll = useCallback(
+  //   (event) => {
+  //     const user = JSON.parse(localStorage.getItem("user"));
+  //     if (!user) {
+  //       navigate("/login"); // Redirect to login if not authenticated
+  //     } else {
+  //       navigate(`/event/${event._id}`, { state: { event } });
+  //     }
+  //   },
+  //   [navigate]
+  // );
   const handleEnroll = useCallback(
     (event) => {
       const user = JSON.parse(localStorage.getItem("user"));
-      if (!user) {
-        navigate("/login"); // Redirect to login if not authenticated
-      } else {
         navigate(`/event/${event._id}`, { state: { event } });
-      }
     },
     [navigate]
   );
@@ -145,6 +155,7 @@ const EventList = () => {
                 >
                   Enroll
                 </button>
+                
               </div>
             </div>
           ))
