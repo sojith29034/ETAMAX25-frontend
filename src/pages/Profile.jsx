@@ -226,7 +226,7 @@ const Profile = () => {
             confirmedEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-[300px]" key={event._id}>
+                <div className="w-[300px] my-2" key={event._id}>
                   <div
                     className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
@@ -280,7 +280,7 @@ const Profile = () => {
             pendingEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-[300px]" key={event._id}>
+                <div className="w-[300px] my-2" key={event._id}>
                   <div
                     className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
