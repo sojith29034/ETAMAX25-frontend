@@ -68,7 +68,7 @@ const BentoGrid = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/api/events`
+          `${import.meta.env.VITE_BASE_URL}/api/events/featured`
         );
         setEvents(response.data);
       } catch (error) {
@@ -80,7 +80,7 @@ const BentoGrid = () => {
     fetchEvents();
   }, []);
 
-  const featuredEvents = events.filter((event) => event.isFeatured);
+  const featuredEvents = events;
 
   const handleEnroll = (event) => {
     const user = JSON.parse(localStorage.getItem("user"));
