@@ -12,13 +12,13 @@ const Footer = () => {
         {/* Address */}
         <p className="text-sm mb-6">
           Agnel Technical Education Complex, Sector 9-A, Vashi, Navi Mumbai,
-          Maharashtra, India, Pin - 400703
+          Maharashtra, India, Vashi - 400703
         </p>
 
         {/* Social Media Icons */}
         <div className="flex justify-center space-x-6">
           <a
-            href="https://www.instagram.com/council.fcrit2024/"
+            href="https://www.instagram.com/etamax_fcrit/"
             target="_blank"
             rel="noopener noreferrer"
           >

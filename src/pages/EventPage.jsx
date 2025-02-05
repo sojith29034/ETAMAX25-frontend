@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const EventPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [teamName, setTeamName] = useState('');
@@ -13,6 +12,7 @@ const EventPage = () => {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [seatsFilled, setSeatsFilled] = useState(0);
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
   useEffect(() => {
     const fetchEventAndSeats = async () => {
@@ -45,6 +45,14 @@ const EventPage = () => {
     fetchEventAndSeats();
   }, [id]);
 
+  useEffect(() => {
+    if (event) {
+      const enrolledEvents =
+        JSON.parse(localStorage.getItem("enrolledEvents")) || [];
+      setIsEnrolled(enrolledEvents.includes(event._id));
+    }
+  }, [event]);
+
   const handleAddMember = async () => {
     if (teamMembers.includes(newMember)) {
       setError('This student is already added to the team.');
@@ -66,7 +74,8 @@ const EventPage = () => {
         setError('Student not registered yet');
       }
     } catch (error) {
-      setError('Error verifying student registration');
+      setError('Student has not registered.');
+      console.log(error);
     }
   };
 
@@ -87,58 +96,32 @@ const EventPage = () => {
       };
 
       await axios.post(`${import.meta.env.VITE_BASE_URL}/api/transactions`, transactionData);
+
+      // Store event ID in localStorage
+      const enrolledEvents = JSON.parse(localStorage.getItem('enrolledEvents')) || [];
+      if (!enrolledEvents.includes(event._id)) {
+        enrolledEvents.push(event._id);
+        localStorage.setItem('enrolledEvents', JSON.stringify(enrolledEvents));
+      }
+      window.location.reload();
+
       setMessage('Enrollment successful!');
       setError('');
     } catch (error) {
       setError('Failed to enroll in the event. Please try again.');
+      console.log(error);
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    navigate('/');
   };
 
   if (loading) return <p>Loading event details...</p>;
   if (!event) return <p>Event not found.</p>;
 
-  const isSeatsFull = seatsFilled >= event?.maxSeats;
+  const isSeatsFull = seatsFilled!=0 && seatsFilled >= event?.maxSeats;
 
   return (
     <div className="min-h-screen bg-[#fff5eb] flex flex-col">
-      {message && (
-        <div className="w-full max-w-7xl mx-auto px-6 mt-4">
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-            {message}
-          </div>
-        </div>
-      )}
-
-      {error && (
-        <div className="w-full max-w-7xl mx-auto px-6 mt-4">
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            {error}
-          </div>
-        </div>
-      )}
-
-      <div className="w-full max-w-7xl mx-auto px-6 py-4 flex justify-between">
-        <button 
-          onClick={() => navigate("/")}
-          className="px-6 py-2 rounded-full bg-[#2A9D8F] text-white"
-        >
-          Home
-        </button>
-        <button 
-          onClick={handleLogout}
-          className="px-6 py-2 rounded-full bg-[#E76F51] text-white"
-        >
-          Logout
-        </button>
-      </div>
-
       <main className="w-full max-w-7xl mx-auto px-6 py-8 md:py-12 flex flex-col md:flex-row gap-8">
-        <div className="flex-1 md:flex-none md:w-1/2 bg-gray-300 h-64 md:h-auto rounded-lg">
+        <div className="w-[50%] m-auto rounded-lg">
           <img
             src={
               event.eventBanner?.startsWith("data:image")
@@ -152,24 +135,38 @@ const EventPage = () => {
 
         <div className="flex-1 md:flex md:flex-col gap-4 md:w-1/2">
           <div>
-            <h2 className="text-4xl font-bold text-left" style={{ fontFamily: 'Arial Black, sans-serif' }}>
+            <h2
+              className="text-4xl font-bold text-left"
+              style={{ fontFamily: "Arial Black, sans-serif" }}
+            >
               {event.eventName}
             </h2>
             <div className="flex justify-start gap-8 mt-2">
               <span className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div> {event.startTime}
+                <div className="w-4 h-4 rounded-full bg-black"></div>{" "}
+                {event.startTime} - {event.endTime}
+              </span>
+            </div>
+            <div className="flex justify-start gap-8 mt-2">
+              <span className="flex items-center gap-2 capitalize">
+                <div className="w-4 h-4 rounded-full bg-black"></div>
+                {event.eventCategory}
               </span>
               <span className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div> Day {event.eventDay}
+                <div className="w-4 h-4 rounded-full bg-black"></div> Day{" "}
+                {event.eventDay}
               </span>
             </div>
             <div className="flex justify-start gap-8 mt-2">
               <span className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div> {event.entryFees ? `₹${event.entryFees}` : "Free"}
+                <div className="w-4 h-4 rounded-full bg-black"></div>{" "}
+                {event.entryFees ? `₹${event.entryFees}` : "Free"}
               </span>
               <span className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div> 
-                {event.maxSeats === 0 ? "Unlimited" : `${seatsFilled} / ${event.maxSeats} Seats`}
+                <div className="w-4 h-4 rounded-full bg-black"></div>
+                {event.maxSeats === 0
+                  ? "Unlimited seats"
+                  : `${seatsFilled} / ${event.maxSeats} Seats`}
               </span>
             </div>
             {event.teamSize > 1 && (
@@ -180,59 +177,82 @@ const EventPage = () => {
             )}
           </div>
 
-          <div>
-            <p className="text-lg leading-relaxed text-justify">
-              {event.eventDetails}
-            </p>
-          </div>
+          {message && (
+            <div className="w-full max-w-7xl mx-auto px-2 mt-4">
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                {message}
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="w-full max-w-7xl mx-auto px-2 mt-4">
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                {error}
+              </div>
+            </div>
+          )}
 
           {event.maxSeats !== 0 && !isSeatsFull && (
             <div className="flex flex-col gap-4 items-start mt-4">
               {event.teamSize > 1 && (
-                <input
-                  type="text"
-                  placeholder="TEAM NAME"
-                  className="w-full md:w-64 px-6 py-2 rounded-full bg-[#F4A261] text-white placeholder-white text-center"
-                  value={teamName}
-                  onChange={(e) => setTeamName(e.target.value)}
-                />
-              )}
-              
-              <div className="flex gap-2 w-full">
-                <input
-                  type="text"
-                  placeholder="ROLL NO"
-                  className="flex-grow px-6 py-2 rounded-full bg-[#F4A261] text-white placeholder-white text-center"
-                  value={newMember}
-                  onChange={(e) => setNewMember(e.target.value)}
-                />
-                <button 
-                  className="px-6 py-2 rounded-full bg-[#E76F51] text-white"
-                  onClick={handleAddMember}
-                >
-                  ADD
-                </button>
-              </div>
-
-              <div className="flex flex-wrap gap-2 justify-start">
-                {teamMembers.map((member, index) => (
-                  member && (
-                    <div 
-                      key={index} 
-                      className="px-6 py-2 rounded-full bg-[#2A9D8F] text-white border-2 border-[#264653]"
+                <>
+                  <input
+                    type="text"
+                    placeholder="TEAM NAME"
+                    className="w-full px-6 py-2 rounded-full bg-[#F4A261] text-white placeholder-white text-center"
+                    value={teamName}
+                    onChange={(e) => setTeamName(e.target.value)}
+                  />
+                  <div className="flex gap-2 w-full">
+                    <input
+                      type="text"
+                      placeholder="ROLL NO"
+                      className="flex-grow px-6 py-2 rounded-full bg-[#F4A261] text-white placeholder-white text-center"
+                      value={newMember}
+                      onChange={(e) => setNewMember(e.target.value)}
+                    />
+                    <button
+                      className="px-6 py-2 rounded-full bg-[#E76F51] text-white"
+                      onClick={handleAddMember}
                     >
-                      {member}
-                    </div>
-                  )
-                ))}
-              </div>
+                      ADD
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-2 justify-start">
+                    {teamMembers.map(
+                      (member, index) =>
+                        member && (
+                          <div
+                            key={index}
+                            className="px-6 py-2 rounded-full bg-[#2A9D8F] text-white border-2 border-[#264653]"
+                          >
+                            {member}
+                          </div>
+                        )
+                    )}
+                  </div>
+                </>
+              )}
 
-              <button 
-                className="w-24 px-6 py-2 rounded-full bg-[#E76F51] text-white"
-                onClick={handleEnroll}
-              >
-                Join
-              </button>
+              {isEnrolled ? (
+                <div className="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                  Already Enrolled. Check your{" "}
+                  <span
+                    className="text-blue-600 cursor-pointer underline"
+                    onClick={() => (window.location.href = "/profile")}
+                  >
+                    profile
+                  </span>
+                </div>
+              ) : (
+                <button
+                  className="w-24 px-6 py-2 rounded-full bg-[#1e7328] text-white cursor-pointer"
+                  onClick={handleEnroll}
+                >
+                  Enroll
+                </button>
+              )}
             </div>
           )}
 
@@ -241,8 +261,20 @@ const EventPage = () => {
               Seats Full
             </div>
           )}
+          {event.maxSeats == 0 && (
+            <div className="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+              This event does not require enrollment.
+            </div>
+          )}
         </div>
       </main>
+
+      <div>
+        <div
+          className="text-lg leading-relaxed text-justify mx-5 md:mx-40 mb-10 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal"
+          dangerouslySetInnerHTML={{ __html: event.eventDetails }}
+        ></div>
+      </div>
     </div>
   );
 };

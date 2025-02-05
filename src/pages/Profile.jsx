@@ -176,6 +176,18 @@ const Profile = () => {
           (userEvents) => userEvents._id !== eventToDelete._id
         )
       );
+
+      // Remove the eventId from local storage
+      const enrolledEvents =
+        JSON.parse(localStorage.getItem("enrolledEvents")) || [];
+      const updatedEnrolledEvents = enrolledEvents.filter(
+        (eventId) => eventId !== eventToDelete.eventId
+      );
+      localStorage.setItem(
+        "enrolledEvents",
+        JSON.stringify(updatedEnrolledEvents)
+      );
+
       setShowModal(false);
       setEventToDelete(null);
     } catch (err) {
@@ -226,7 +238,7 @@ const Profile = () => {
             confirmedEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-[300px] my-2" key={event._id}>
+                <div className="w-[300px] m-2" key={event._id}>
                   <div
                     className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
@@ -240,7 +252,7 @@ const Profile = () => {
                       <span className="font-semibold">Day:</span>{" "}
                       {eventDetail?.eventDay || "Loading..."} <br />
                       <span className="font-semibold">Entry Fees:</span> ₹
-                      {event.amount || "Loading..."} <br />
+                      {event.amount} <br />
                       <span className="font-semibold">Time:</span>{" "}
                       {eventDetail
                         ? `${eventDetail.startTime} - ${eventDetail.endTime}`
@@ -280,7 +292,7 @@ const Profile = () => {
             pendingEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-[300px] my-2" key={event._id}>
+                <div className="w-[300px] m-2" key={event._id}>
                   <div
                     className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
@@ -294,7 +306,7 @@ const Profile = () => {
                       <span className="font-semibold">Day:</span>{" "}
                       {eventDetail?.eventDay || "Loading..."} <br />
                       <span className="font-semibold">Entry Fees:</span> ₹
-                      {event.amount || "Loading..."} <br />
+                      {event.amount} <br />
                       <span className="font-semibold">Time:</span>{" "}
                       {eventDetail
                         ? `${eventDetail.startTime} - ${eventDetail.endTime}`
@@ -329,7 +341,7 @@ const Profile = () => {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center">
           <div className="bg-gray-800 text-white p-6 rounded-lg">
             <h4 className="text-lg font-bold">Confirm Deletion</h4>
             <p>

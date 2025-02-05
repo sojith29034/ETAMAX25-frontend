@@ -102,19 +102,22 @@ const WaveBg = ({
         containerClassName
       )}
     >
-        <span className="absolute mt-[-500px] z-12 spicy-rice text-[#2B1511] text-5xl">ETAMAX &apos;25</span>
-        <div
-          style={{ transform: "translate(0, -20%)" }}
-          className="absolute z-12 h-75 w-75"
-        >
-          <img src="./LOGO.png" alt="" />
-        </div>
-        <canvas
-          className="inset-0 z-0"
-          ref={canvasRef}
-          id="canvas"
-          style={{ filter: `blur(${blur}px)` }}
-        ></canvas>
+      <span className="absolute mt-[-500px] z-12 spicy-rice text-[#2B1511] text-5xl">
+        ETAMAX &apos;25
+      </span>
+      <div
+        style={{ transform: "translate(0, -20%)" }}
+        className="absolute z-12 h-75 w-75"
+      >
+        <img src="./LOGO.png" alt="" />
+      </div>
+      <canvas
+        className="inset-0 z-0"
+        ref={canvasRef}
+        id="canvas"
+        style={{ filter: `blur(${blur}px)` }}
+      ></canvas>
+      <span className="absolute mt-[300px] z-12 spicy-rice text-[#2B1511] text-2xl">13.02.2025 - 15.02.2025</span>
       <div className={cn("z-10", className)} {...props}>
         {children}
       </div>

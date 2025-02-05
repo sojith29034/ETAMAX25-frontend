@@ -19,7 +19,7 @@ const rootColors = [
 const getRandomColor = () =>
   rootColors[Math.floor(Math.random() * rootColors.length)];
 
-const EventCard = ({ className = "", size = "", eventName = "", eventImg = "", onClick, isFeatured = false }) => {
+const EventCard = ({ className = "", size = "", eventName = "", eventImg = "", onClick }) => {
   const [borderColor, setBorderColor] = useState(getRandomColor());
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const EventCard = ({ className = "", size = "", eventName = "", eventImg = "", o
         {/* Event Name */}
         <div className="spicy-rice absolute bg-[#d2d2d2b6] rounded-b-md w-full bottom-0 text-lg md:text-2xl font-bold text-center pb-2">
           {eventName}
-          {isFeatured && <span className="text-red-500 ml-2">★ Featured</span>}
+          {/* {isFeatured && <span className="text-red-500 ml-2">★ Featured</span>} */}
         </div>
       </div>
     </div>
@@ -82,7 +82,6 @@ const BentoGrid = () => {
     };
     fetchEvents();
   }, []);
-  const featuredEvents = events;
 
   const handleEnroll = (event) => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -94,8 +93,8 @@ const BentoGrid = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
-      <h1 className="spicy-rice text-[#2B1511] text-3xl md:text-5xl font-bold text-center mb-8 md:mb-12">
+    <div className="container mx-auto p-4 max-w-7xl my-4">
+      <h1 className="spicy-rice text-[#2B1511] text-3xl md:text-5xl font-bold text-center my-4">
         HIGHLIGHT EVENTS
       </h1>
       {loading ? (
