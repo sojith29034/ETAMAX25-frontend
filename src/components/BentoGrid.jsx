@@ -19,7 +19,7 @@ const rootColors = [
 const getRandomColor = () =>
   rootColors[Math.floor(Math.random() * rootColors.length)];
 
-const EventCard = ({ className = "", size = "", eventName = "", eventImg = "", onClick }) => {
+const EventCard = ({ className = "", size = "", eventName = "", eventImg = "", onClick, isFeatured = false }) => {
   const [borderColor, setBorderColor] = useState(getRandomColor());
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const EventCard = ({ className = "", size = "", eventName = "", eventImg = "", o
   return (
     <div className={`${borderColor} rounded-xl p-2 ${className}`} onClick={onClick}>
       <div
-        className={`${
+        className={`$${
           size === "large" ? "aspect-[2/1]" : "aspect-square"
         } flex flex-col items-center justify-center relative h-full w-full`}
       >
@@ -53,6 +53,7 @@ const EventCard = ({ className = "", size = "", eventName = "", eventImg = "", o
         {/* Event Name */}
         <div className="spicy-rice absolute bg-[#d2d2d2b6] rounded-b-md w-full bottom-0 text-lg md:text-2xl font-bold text-center pb-2">
           {eventName}
+          {isFeatured && <span className="text-red-500 ml-2">★ Featured</span>}
         </div>
       </div>
     </div>
@@ -70,22 +71,23 @@ const BentoGrid = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/api/events/featured`
         );
-        setEvents(response.data);
+        console.log("API Response:", response.data);
+        setEvents(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error("Error fetching events:", error);
+        setEvents([]);
       } finally {
         setLoading(false);
       }
     };
     fetchEvents();
   }, []);
-
   const featuredEvents = events;
 
   const handleEnroll = (event) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
-      navigate("/login"); // Redirect to login if not authenticated
+      navigate("/login");
     } else {
       navigate(`/event/${event._id}`, { state: { event } });
     }
@@ -102,56 +104,28 @@ const BentoGrid = () => {
         </div>
       ) : (
         <>
-          {/* Desktop Grid */}
-          <div className="wide-screen">
-            <div className="grid grid-cols-3 gap-4 auto-rows-fr">
-              {featuredEvents.slice(0, 8).map((event, index) => (
-                <div
-                  key={event._id}
-                  className={`${index === 0 || index === 5 ? "row-span-2" : ""} 
-                              ${index === 3 || index === 4 ? "col-span-2" : ""}`}
-                >
-                  <EventCard
-                    size={
-                      index === 0 || index === 5 || index === 3 || index === 4
-                        ? "large"
-                        : ""
-                    }
-                    className="h-full cursor-pointer"
-                    eventName={event.eventName}
-                    eventImg={event.eventBanner}
-                    eventId={event._id}
-                    onClick={() => handleEnroll(event)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile Grid */}
-          <div className="small-screen">
-            <div className="grid grid-cols-2 gap-4 auto-rows-fr">
-              {featuredEvents.slice(0, 8).map((event, index) => (
-                <div
-                  key={event._id}
-                  className={`${index === 0 || index === 5 ? "row-span-2" : ""} 
-                              ${index === 3 || index === 4 ? "col-span-2" : ""}`}
-                >
-                  <EventCard
-                    size={
-                      index === 0 || index === 5 || index === 3 || index === 4
-                        ? "large"
-                        : ""
-                    }
-                    className="h-full cursor-pointer"
-                    eventName={event.eventName}
-                    eventImg={event.eventBanner}
-                    eventId={event._id}
-                    onClick={() => handleEnroll(event)}
-                  />
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-3 gap-4 auto-rows-fr">
+            {events.slice(0, 8).map((event, index) => (
+              <div
+                key={event._id}
+                className={`${index === 0 || index === 5 ? "row-span-2" : ""} 
+                            ${index === 3 || index === 4 ? "col-span-2" : ""}`}
+              >
+                <EventCard
+                  size={
+                    index === 0 || index === 5 || index === 3 || index === 4
+                      ? "large"
+                      : ""
+                  }
+                  className="h-full cursor-pointer"
+                  eventName={event.eventName}
+                  eventImg={event.eventBanner}
+                  eventId={event._id}
+                  onClick={() => handleEnroll(event)}
+                  isFeatured={event.isFeatured}
+                />
+              </div>
+            ))}
           </div>
         </>
       )}
@@ -165,7 +139,8 @@ EventCard.propTypes = {
   eventName: PropTypes.string,
   eventImg: PropTypes.string,
   eventId: PropTypes.string,
-  onClick: PropTypes.func, // Added missing prop type
+  onClick: PropTypes.func,
+  isFeatured: PropTypes.bool,
 };
 
 export default BentoGrid;
