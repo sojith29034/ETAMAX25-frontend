@@ -61,21 +61,14 @@ const EventList = () => {
     return () => clearInterval(interval);
   }, [eventsData]);
 
-  // const handleEnroll = useCallback(
-  //   (event) => {
-  //     const user = JSON.parse(localStorage.getItem("user"));
-  //     if (!user) {
-  //       navigate("/login"); // Redirect to login if not authenticated
-  //     } else {
-  //       navigate(`/event/${event._id}`, { state: { event } });
-  //     }
-  //   },
-  //   [navigate]
-  // );
   const handleEnroll = useCallback(
     (event) => {
       const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) {
+        navigate("/login"); // Redirect to login if not authenticated
+      } else {
         navigate(`/event/${event._id}`, { state: { event } });
+      }
     },
     [navigate]
   );
@@ -97,8 +90,8 @@ const EventList = () => {
             onClick={() => setCurrentDay(day)}
             className={`px-4 py-2 ${
               currentDay === day
-                ? "border-b-2 border-[#2B1511] font-semibold"
-                : "opacity-50 hover:opacity-100"
+                ? "border-b-2 border-[#2B1511] font-semibold cursor-pointer"
+                : "opacity-50 hover:opacity-100 cursor-pointer"
             }`}
           >
             {`Day ${day}`}
@@ -114,8 +107,8 @@ const EventList = () => {
             onClick={() => setCurrentCategory(category)}
             className={`px-4 py-2 ${
               currentCategory === category
-                ? "border-b-2 border-[#2B1511] font-semibold"
-                : "opacity-50 hover:opacity-100"
+                ? "border-b-2 border-[#2B1511] font-semibold cursor-pointer"
+                : "opacity-50 hover:opacity-100 cursor-pointer"
             }`}
           >
             <span style={{ textTransform: "capitalize" }}>{category}</span>
@@ -136,7 +129,7 @@ const EventList = () => {
               <h3 className="text-lg font-bold text-center text-[#2B1511]">
                 {event.eventName}
               </h3>
-              <div className="mt-2">
+              <div className="mt-2 w-full">
                 <p className="text-sm text-gray-700">
                   <FontAwesomeIcon icon={faClock} className="mr-2" />{" "}
                   {event.startTime} - {event.endTime}
@@ -150,17 +143,16 @@ const EventList = () => {
                   {event.entryFees ? `₹${event.entryFees}` : "Free"}
                 </p>
                 <button
-                  className="text-center cursor-pointer bg-green-500 text-white my-2 px-6 py-1 rounded-lg hover:bg-green-600 transition duration-200"
+                  className="text-center cursor-pointer bg-green-700 text-white my-2 px-6 py-1 rounded-lg hover:bg-green-600 transition duration-200"
                   onClick={() => handleEnroll(event)}
                 >
                   Enroll
                 </button>
-                
               </div>
             </div>
           ))
         ) : (
-          <div className="text-white text-center">
+          <div className="text-center">
             No events available for this day and category.
           </div>
         )}

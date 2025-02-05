@@ -24,26 +24,18 @@ const About = () => {
             />
           </div>
           <div className="sm:w-[50%] text-center sm:text-left mb-10">
-            <p className="text-md text-gray-600">
-              This is a brief description for the first image. It explains the
-              context and significance of the image.
-            </p>
-          </div>
-        </div>
-
-        {/* Second Image with Content */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
-          <div className="relative w-full sm:w-[50%]">
-            <img
-              src="./SPECTRUM.png"
-              alt="Spectrum Image 2"
-              className="w-full h-auto"
-            />
-          </div>
-          <div className="sm:w-[50%] text-center sm:text-left">
-            <p className="text-md text-gray-600">
-              This is a brief description for the second image. It highlights
-              the key features or concepts behind the image.
+            <p className="text-md text-gray-600 text-justify">
+              This year&apos;s theme of Spectrum – where ideas refract – draws
+              inspiration from the splitting of a singular stream of light,
+              symbolizing the endless potential that arises when ideas are
+              shared, refined, and allowed to evolve. The event celebrates how
+              collaboration can transform thoughts into something vibrant,
+              impactful, and full of possibility. Spectrum invites us on a
+              journey where creativity and innovation are fueled by diverse
+              perspectives, pushing the boundaries of what we can imagine and
+              achieve. It’s a call to explore the vast potential that lies in
+              uniting varied insights, empowering us to turn challenges into
+              limitless opportunities for growth and transformation.
             </p>
           </div>
         </div>

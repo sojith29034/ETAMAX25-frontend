@@ -20,7 +20,7 @@ const Login = () => {
       );
       // Save token or user details in local storage or context
       localStorage.setItem("user", JSON.stringify(response.data));
-      navigate("/");
+      navigate("/events");
       window.location.reload();
     } catch (err) {
       console.log(err.message);

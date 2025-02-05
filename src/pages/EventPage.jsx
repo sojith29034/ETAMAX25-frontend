@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { FaCalendarAlt, FaTag, FaUsers, FaRupeeSign } from "react-icons/fa";
 
 const EventPage = () => {
   const { id } = useParams();
@@ -134,45 +135,47 @@ const EventPage = () => {
         </div>
 
         <div className="flex-1 md:flex md:flex-col gap-4 md:w-1/2">
-          <div>
+          <div className="space-y-4">
             <h2
               className="text-4xl font-bold text-left"
               style={{ fontFamily: "Arial Black, sans-serif" }}
             >
               {event.eventName}
             </h2>
-            <div className="flex justify-start gap-8 mt-2">
+
+            <div className="flex flex-wrap gap-8 mt-2">
               <span className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div>{" "}
+                <FaCalendarAlt className="w-5 h-5 text-black" />
                 {event.startTime} - {event.endTime}
               </span>
             </div>
-            <div className="flex justify-start gap-8 mt-2">
-              <span className="flex items-center gap-2 capitalize">
-                <div className="w-4 h-4 rounded-full bg-black"></div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
+              <div className="flex items-center gap-2 capitalize">
+                <FaTag className="w-5 h-5 text-black" />
                 {event.eventCategory}
-              </span>
-              <span className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div> Day{" "}
-                {event.eventDay}
-              </span>
-            </div>
-            <div className="flex justify-start gap-8 mt-2">
-              <span className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div>{" "}
+              </div>
+              <div className="flex items-center gap-2">
+                <FaCalendarAlt className="w-5 h-5 text-black" />
+                Day {event.eventDay}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <FaRupeeSign className="w-5 h-5 text-black" />
                 {event.entryFees ? `₹${event.entryFees}` : "Free"}
-              </span>
-              <span className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaUsers className="w-5 h-5 text-black" />
                 {event.maxSeats === 0
                   ? "Unlimited seats"
                   : `${seatsFilled} / ${event.maxSeats} Seats`}
-              </span>
+              </div>
             </div>
+
             {event.teamSize > 1 && (
-              <div className="flex justify-start mt-2">
-                <div className="w-4 h-4 rounded-full bg-black"></div>
-                <span className="ml-2">Team Size: {event.teamSize}</span>
+              <div className="flex items-center gap-2 mt-2">
+                <FaUsers className="w-5 h-5 text-black" />
+                <span>Team Size: {event.teamSize}</span>
               </div>
             )}
           </div>
@@ -247,7 +250,7 @@ const EventPage = () => {
                 </div>
               ) : (
                 <button
-                  className="w-24 px-6 py-2 rounded-full bg-[#1e7328] text-white cursor-pointer"
+                  className="w-24 mx-auto px-6 py-2 rounded-full bg-[#1e7328] text-white cursor-pointer"
                   onClick={handleEnroll}
                 >
                   Enroll

@@ -7,6 +7,7 @@ import EventPage from "./pages/EventPage";
 import EventList from "./pages/Event_list";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/events" element={<EventList />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
 
