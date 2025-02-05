@@ -53,7 +53,7 @@ const WaveBg = ({
         ctx.strokeStyle = waveColors[i % waveColors.length];
 
         for (let x = 0; x < w; x += 8) {
-          const y = noise(x / 500, 0.5 * i, noiseTime.current) * 200;
+          const y = noise(x / 500, 0.5 * i, noiseTime.current) * 500;
           ctx.lineTo(x, y + h * 0.4);
         }
         ctx.stroke();
@@ -98,19 +98,23 @@ const WaveBg = ({
   return (
     <div
       className={cn(
-        "h-screen w-screen flex items-center justify-center",
+        "h-screen w-screen flex flex-col items-center justify-center",
         containerClassName
       )}
     >
-      <div style={{ transform: 'translate(0, -20%)' }} className="absolute z-12 h-100 w-100">
-        <img src="./LOGO.png" alt="" />
-      </div>
-      <canvas
-        className="inset-0 z-0"
-        ref={canvasRef}
-        id="canvas"
-        style={{ filter: `blur(${blur}px)` }}
-      ></canvas>
+        <span className="absolute mt-[-500px] z-12 spicy-rice text-[#2B1511] text-5xl">ETAMAX &apos;25</span>
+        <div
+          style={{ transform: "translate(0, -20%)" }}
+          className="absolute z-12 h-75 w-75"
+        >
+          <img src="./LOGO.png" alt="" />
+        </div>
+        <canvas
+          className="inset-0 z-0"
+          ref={canvasRef}
+          id="canvas"
+          style={{ filter: `blur(${blur}px)` }}
+        ></canvas>
       <div className={cn("z-10", className)} {...props}>
         {children}
       </div>

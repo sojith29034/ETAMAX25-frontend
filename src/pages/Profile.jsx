@@ -54,7 +54,7 @@ const Profile = () => {
 
         // Filter transactions by checking if the current user is in the teamMembers array
         const userEvents = allTransactions.filter((event) =>
-          event.teamMembers.some((member) => member === storedUser.rollNumber)
+          event.teamMembers.includes(storedUser.rollNumber)
         );
 
         const confirmed = userEvents.filter((event) => event.payment === 1);
@@ -62,18 +62,23 @@ const Profile = () => {
         setConfirmedEvents(confirmed);
         setPendingEvents(pending);
 
-        const eventPromises = userEvents.map((event) =>
-          axios.get(
-            `${import.meta.env.VITE_BASE_URL}/api/events/${event.eventId}`
-          )
-        );
-        const eventResponses = await Promise.all(eventPromises);
+        // Get all unique event IDs
+        const eventIds = [...new Set(userEvents.map((event) => event.eventId))];
 
-        const details = eventResponses.reduce((acc, curr) => {
-          acc[curr.data._id] = curr.data;
-          return acc;
-        }, {});
-        setEventDetails(details);
+        if (eventIds.length > 0) {
+          const eventResponse = await axios.post(
+            `${import.meta.env.VITE_BASE_URL}/api/events/bulk`,
+            { eventIds }
+          );
+
+          // Convert response array to a lookup object
+          const details = eventResponse.data.reduce((acc, curr) => {
+            acc[curr._id] = curr;
+            return acc;
+          }, {});
+
+          setEventDetails(details);
+        }
 
         setAllTransactions(allTransactions);
 
@@ -83,7 +88,7 @@ const Profile = () => {
         const enrolledDays = Array.from(
           new Set(
             confirmed
-              .map((event) => details[event.eventId]?.eventDay)
+              .map((event) => eventDetails[event.eventId]?.eventDay)
               .filter(Boolean)
           )
         );
@@ -92,10 +97,10 @@ const Profile = () => {
             confirmed
               .map(
                 (event) =>
-                  details[event.eventId]?.eventCategory
+                  eventDetails[event.eventId]?.eventCategory
                     .charAt(0)
                     .toUpperCase() +
-                  details[event.eventId]?.eventCategory.slice(1).toLowerCase()
+                  eventDetails[event.eventId]?.eventCategory.slice(1).toLowerCase()
               )
               .filter(Boolean)
           )
@@ -132,7 +137,7 @@ const Profile = () => {
     };
 
     fetchEnrollmentsAndUser();
-  }, [navigate]);
+  }, [navigate, eventDetails]);
 
   // Calculate totals
   const totalConfirmedFees = confirmedEvents.reduce((sum, event) => {
@@ -221,7 +226,7 @@ const Profile = () => {
             confirmedEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-[300px]" key={event._id}>
+                <div className="w-[300px] my-2" key={event._id}>
                   <div
                     className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
@@ -275,7 +280,7 @@ const Profile = () => {
             pendingEvents.map((event) => {
               const eventDetail = eventDetails[event.eventId];
               return (
-                <div className="w-[300px]" key={event._id}>
+                <div className="w-[300px] my-2" key={event._id}>
                   <div
                     className={`${getRandomColor()} border-4 rounded-xl p-3`}
                   >
