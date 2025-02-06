@@ -1,12 +1,12 @@
 const About = () => {
   return (
-    <div className="flex flex-col p-6 space-y-6">
+    <div className="flex flex-col p-6 space-y-6 playfair-display">
       {/* Content Section */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-4">
+        <h1 className="text-3xl font-bold mb-4 text-[#2B1511]">
           Spectrum - Where Ideas Refract.
         </h1>
-        <p className="text-lg text-gray-700">
+        <p className="text-lg text-[#2B1511]">
           Join us for an exciting journey through the world of creativity,
           technology, and innovation.
         </p>
@@ -24,7 +24,7 @@ const About = () => {
             />
           </div>
           <div className="sm:w-[50%] text-center sm:text-left mb-10">
-            <p className="text-md text-gray-600 text-justify">
+            <p className="text-md text-[#2B1511] text-justify">
               This year&apos;s theme of Spectrum – where ideas refract – draws
               inspiration from the splitting of a singular stream of light,
               symbolizing the endless potential that arises when ideas are
